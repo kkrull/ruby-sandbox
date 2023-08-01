@@ -1,2 +1,6 @@
-str = "\x4d\x54\x68\x64"
-puts str.unpack("l").first
+filename = 'data/drum-library-ezdrummer2.mid'
+f = File.open filename, 'rb'
+contents = f.read
+f.close
+
+puts contents[0,4]
