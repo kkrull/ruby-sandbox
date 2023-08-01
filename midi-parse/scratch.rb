@@ -1,6 +1,9 @@
 filename = 'data/drum-library-ezdrummer2.mid'
 f = File.open filename, 'rb'
-contents = f.read
-f.close
+begin
+  contents = f.read
+  puts contents[0,4]
+ensure
+  f.close
+end
 
-puts contents[0,4]
