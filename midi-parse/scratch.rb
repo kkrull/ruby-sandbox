@@ -8,12 +8,12 @@ end
 
 f = File.open filename, 'rb'
 begin
-  type_name, chunk_bytes = read_chunk_header f
-  puts "%s: %s bytes" % [type_name, chunk_bytes]
+  while not f.eof?
+    type_name, chunk_bytes = read_chunk_header f
+    puts "%s: %s bytes" % [type_name, chunk_bytes]
 
-  f.read chunk_bytes
-  type_name, chunk_bytes = read_chunk_header f
-  puts "%s: %s bytes" % [type_name, chunk_bytes]
+    f.read chunk_bytes
+  end
 ensure
   f.close
 end
