@@ -8,12 +8,11 @@ Next up: Load the file and pass through the top-line chunks:
 
 ## Running
 
-    ruby scratch.rb #for now
+    make run
 
 ## Viewing hex data
 
 Use `vim -b` to set binary mode.
 Use `xxd` to view hex mode.
 Use `:%!xxd` to select the whole buffer and pass it through `xxd`, so you can see the hex.
-
 
