@@ -6,6 +6,10 @@ Next up: Load the file and pass through the top-line chunks:
     32-bit length, in bytes (MSB on the left)
     That many bytes of data (don't display this yet)
 
+## Running
+
+    ruby scratch.rb #for now
+
 ## Viewing hex data
 
 Use `vim -b` to set binary mode.
