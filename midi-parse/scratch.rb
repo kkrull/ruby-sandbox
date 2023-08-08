@@ -1,4 +1,4 @@
-filename = 'data/drum-library-ezdrummer2.mid'
+## File -> chunks
 
 def read_chunk_header(f)
   type_name = f.read 4
@@ -15,11 +15,17 @@ def inspect_chunk(type_name, chunk_bytes, f)
   end
 end
 
+## Header chunk
+
 def inspect_header_chunk(chunk_bytes, f)
   file_format = f.read(2).unpack1('n')
   puts "File format: %d" % file_format
   f.read(chunk_bytes - 2)
 end
+
+## Main
+
+filename = 'data/drum-library-ezdrummer2.mid'
 
 f = File.open filename, 'rb'
 begin
