@@ -30,21 +30,25 @@ def inspect_header_chunk(chunk_bytes, f)
 end
 
 def describe_division(division)
+  #https://midimusic.github.io/tech/midispec.html#BM2_1
   division_type = division & 0x8000
   case division_type
   when 0
-    return "Ticks per quarter note"
+    ticks_per_quarter = division & 0x7f00
+    return "%d ticks per quarter note" % [ticks_per_quarter]
   else
+    #[1] also possible
     raise ArgumentError.new('Unknown division type: %#04x' % division)
   end
 end
 
 def describe_file_format(id)
+  #https://midimusic.github.io/tech/midispec.html#BM2_1
   case id
   when 0
     return "Single track, multi-channel"
   else
-    #[1,2] also possible: https://midimusic.github.io/tech/midispec.html#BM2_1
+    #[1,2] also possible
     raise ArgumentError.new('Unknown MIDI file format: %d' % [id])
   end
 end
