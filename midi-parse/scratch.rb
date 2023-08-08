@@ -7,10 +7,11 @@ def read_chunk_header(f)
 end
 
 def inspect_chunk(type_name, chunk_bytes, f)
-  if 'MThd'.eql? type_name
+  case type_name
+  when 'MThd'
     puts 'Header chunk'
     inspect_header_chunk chunk_bytes, f
-  else 
+  else
     f.read chunk_bytes
   end
 end
@@ -24,8 +25,12 @@ def inspect_header_chunk(chunk_bytes, f)
 end
 
 def describe_file_format(id)
-  return "Single track, multi-channel" if id.eql? 0
-  raise ArgumentError.new('Unknown MIDI file format: %d' % [id])
+  case id
+  when 0
+    return "Single track, multi-channel"
+  else
+    raise ArgumentError.new('Unknown MIDI file format: %d' % [id])
+  end
 end
 
 ## Main
