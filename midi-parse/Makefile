@@ -1,3 +1,3 @@
 .PHONY: run
 run:
-	ruby scratch.rb
+	ruby src/list_tracks.rb
