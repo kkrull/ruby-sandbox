@@ -9,12 +9,16 @@ end
 def inspect_chunk(type_name, chunk_bytes, f)
   if 'MThd'.eql? type_name
     puts 'Header chunk'
-    file_format = f.read 2
-    puts "File format: %d" % [file_format.unpack1('n')]
-    f.read(chunk_bytes - 2)
+    inspect_header_chunk chunk_bytes, f
   else 
     f.read chunk_bytes
   end
+end
+
+def inspect_header_chunk(chunk_bytes, f)
+  file_format = f.read 2
+  puts "File format: %d" % [file_format.unpack1('n')]
+  f.read(chunk_bytes - 2)
 end
 
 f = File.open filename, 'rb'
