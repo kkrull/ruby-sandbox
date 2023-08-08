@@ -55,7 +55,11 @@ end
 
 ## Main
 
-filename = 'data/drum-library-ezdrummer2.mid'
+unless ARGV.length.eql? 1
+  raise ArgumentError.new("Usage: %s <MIDI file>" % $0)
+end
+
+filename = ARGV[0]
 
 f = File.open filename, 'rb'
 begin
