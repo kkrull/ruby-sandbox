@@ -11,7 +11,11 @@ def inspect_chunk(type_name, chunk_bytes, f)
   when 'MThd'
     puts 'Header chunk'
     inspect_header_chunk chunk_bytes, f
+  when 'MTrk'
+    puts 'Track chunk'
+    f.read chunk_bytes
   else
+    puts 'Unknown chunk'
     f.read chunk_bytes
   end
 end
