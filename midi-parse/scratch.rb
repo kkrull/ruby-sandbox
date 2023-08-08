@@ -19,8 +19,13 @@ end
 
 def inspect_header_chunk(chunk_bytes, f)
   file_format = f.read(2).unpack1('n')
-  puts "File format: %d" % file_format
+  puts "File format: %s (%d)" % [describe_file_format(file_format), file_format]
   f.read(chunk_bytes - 2)
+end
+
+def describe_file_format(id)
+  return "Single track, multi-channel" if id.eql? 0
+  raise ArgumentError.new('Unknown MIDI file format: %d' % [id])
 end
 
 ## Main
