@@ -20,13 +20,23 @@ end
 
 def inspect_header_chunk(chunk_bytes, f)
   file_format = f.read(2).unpack1('n')
-  puts "File format: %s (%d)" % [describe_file_format(file_format), file_format]
+  puts "File format %d: %s" % [file_format, describe_file_format(file_format)]
 
   num_tracks = f.read(2).unpack1('n')
   puts "Tracks: %d" % [num_tracks]
 
   division = f.read(2).unpack1('n')
-  puts "Division: %04x" % [division]
+  puts "Division %#04x: %s" % [division, describe_division(division)]
+end
+
+def describe_division(division)
+  division_type = division & 0x8000
+  case division_type
+  when 0
+    return "Ticks per quarter note"
+  else
+    raise ArgumentError.new('Unknown division type: %#04x' % division)
+  end
 end
 
 def describe_file_format(id)
