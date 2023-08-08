@@ -24,7 +24,9 @@ def inspect_header_chunk(chunk_bytes, f)
 
   num_tracks = f.read(2).unpack1('n')
   puts "Tracks: %d" % [num_tracks]
-  f.read(chunk_bytes - 4)
+
+  division = f.read(2).unpack1('n')
+  puts "Division: %04x" % [division]
 end
 
 def describe_file_format(id)
