@@ -16,8 +16,8 @@ end
 ## Header chunk
 
 def describe_header_chunk(mf)
-  puts "File format %d: %s" % [mf.file_format, describe_file_format(mf.file_format)]
-  puts "Tracks: %d" % [mf.num_tracks]
+  puts "File format: %s" % describe_file_format(mf)
+  puts "Tracks: %d" % mf.num_tracks
   puts "Division %#04x: %s" % [mf.division_word, describe_division(mf.division_word)]
 end
 
@@ -34,14 +34,14 @@ def describe_division(division)
   end
 end
 
-def describe_file_format(id)
+def describe_file_format(mf)
   #https://midimusic.github.io/tech/midispec.html#BM2_1
-  case id
-  when 0
-    return "Single track, multi-channel"
+  case
+  when mf.single_track?
+    "Single track, multi-channel (type %d)" % [mf.file_format]
   else
     #[1,2] also possible
-    raise ArgumentError.new("Unknown MIDI file format: %d" % [id])
+    raise ArgumentError.new("Unknown MIDI file format: %d" % [mf.file_format])
   end
 end
 

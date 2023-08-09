@@ -35,6 +35,10 @@ class MIDIFile
     @file_header.num_tracks
   end
 
+  def single_track?
+    @file_header.file_format.eql? 0
+  end
+
 #  private
   def file_header
     @file_header
