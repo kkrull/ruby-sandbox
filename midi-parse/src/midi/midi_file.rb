@@ -21,7 +21,7 @@ class MIDIFile
     @file.eof?
   end
 
-  ## Contents
+  ## File header
 
   def division_word
     @file_header.division

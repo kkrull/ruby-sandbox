@@ -22,6 +22,13 @@ def describe_header_chunk(mf)
 end
 
 def describe_division(division)
+  case
+  when mf.division_by_tick?
+    "%d ticks per quarter note" % mf.ticks_per_quarter_note
+  else
+    raise ArgumentError.new("Unknown division type: %#04x" % division)
+  end
+
   #https://midimusic.github.io/tech/midispec.html#BM2_1
   division_type = division & 0x8000
   case division_type
