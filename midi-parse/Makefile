@@ -1,9 +1,10 @@
+.PHONY: install
+install:
+	bundle install
+
 .PHONY: format
 format:
 	rufo .
-
-.PHONY: install
-	bundle install
 
 .PHONY: run
 run:
