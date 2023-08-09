@@ -1,15 +1,15 @@
-require_relative './midi/midi_file'
+require_relative "./midi/midi_file"
 
 ## File -> chunks
 
 def describe_chunk(type_name, chunk_bytes)
   case type_name
-  when 'MThd'
-    puts 'Header chunk'
-  when 'MTrk'
-    puts 'Track chunk'
+  when "MThd"
+    puts "Header chunk"
+  when "MTrk"
+    puts "Track chunk"
   else
-    puts 'Unknown chunk'
+    puts "Unknown chunk"
   end
 end
 
@@ -30,7 +30,7 @@ def describe_division(division)
     return "%d ticks per quarter note" % [ticks_per_quarter]
   else
     #[1] also possible
-    raise ArgumentError.new('Unknown division type: %#04x' % division)
+    raise ArgumentError.new("Unknown division type: %#04x" % division)
   end
 end
 
@@ -41,7 +41,7 @@ def describe_file_format(id)
     return "Single track, multi-channel"
   else
     #[1,2] also possible
-    raise ArgumentError.new('Unknown MIDI file format: %d' % [id])
+    raise ArgumentError.new("Unknown MIDI file format: %d" % [id])
   end
 end
 
@@ -56,8 +56,8 @@ mf = MIDIFile.open(filename)
 
 begin
   #Start with the header chunk, which is always first
-  file_header = mf.file_header 
-  puts 'Header chunk'
+  file_header = mf.file_header
+  puts "Header chunk"
   describe_header_chunk file_header
 
   #Then read the tracks and any other chunk
@@ -70,4 +70,3 @@ begin
 ensure
   mf.close
 end
-
