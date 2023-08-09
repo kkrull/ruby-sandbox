@@ -5,11 +5,12 @@ class MIDIFile
 
   def self.open(filename)
     f = File.open(filename, "rb")
-    MIDIFile.new f
+    MIDIFile.new f, MIDIFileHeader.read(f)
   end
 
-  def initialize(f)
+  def initialize(f, file_header)
     @f = f
+    @file_header = file_header
   end
 
   def close
@@ -22,8 +23,8 @@ class MIDIFile
 
   ## Contents
 
-  def file_header
-    @file_header = MIDIFileHeader.read @f
+  def file_format
+    @file_header.file_format
   end
 
   def num_tracks
@@ -31,6 +32,10 @@ class MIDIFile
   end
 
 #  private
+  def file_header
+    @file_header
+  end
+
   def read_chunk
     type_name, chunk_bytes = read_chunk_prefix @f
     @f.read chunk_bytes

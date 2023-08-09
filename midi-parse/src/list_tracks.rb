@@ -16,7 +16,7 @@ end
 ## Header chunk
 
 def describe_header_chunk(mf, header)
-  puts "File format %d: %s" % [header.file_format, describe_file_format(header.file_format)]
+  puts "File format %d: %s" % [mf.file_format, describe_file_format(mf.file_format)]
   puts "Tracks: %d" % [mf.num_tracks]
   puts "Division %#04x: %s" % [header.division, describe_division(header.division)]
 end
