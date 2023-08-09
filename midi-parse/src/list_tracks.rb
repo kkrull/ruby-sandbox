@@ -1,6 +1,6 @@
 ## File -> chunks
 
-def read_chunk_header(f)
+def read_chunk_prefix(f)
   type_name = f.read 4
   chunk_bytes = f.read 4
   return type_name, chunk_bytes.unpack1('N')
@@ -68,7 +68,7 @@ filename = ARGV[0]
 f = File.open filename, 'rb'
 begin
   while not f.eof?
-    type_name, chunk_bytes = read_chunk_header f
+    type_name, chunk_bytes = read_chunk_prefix f
     puts ""
     puts "%s: %s bytes" % [type_name, chunk_bytes]
 
