@@ -2,14 +2,14 @@ require_relative "./midi/midi_file"
 
 ## File -> chunks
 
-def describe_chunk(type_name, chunk_bytes)
+def describe_chunk(type_name)
   case type_name
   when "MThd"
-    puts "Header chunk"
+    "Header chunk"
   when "MTrk"
-    puts "Track chunk"
+    "Track chunk"
   else
-    puts "Unknown chunk"
+    "Unknown chunk"
   end
 end
 
@@ -65,7 +65,7 @@ begin
     type_name, chunk_bytes = mf.read_chunk
     puts ""
     puts "%s: %s bytes" % [type_name, chunk_bytes]
-    describe_chunk type_name, chunk_bytes
+    puts describe_chunk(type_name)
   end
 ensure
   mf.close

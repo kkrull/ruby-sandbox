@@ -1,7 +1,7 @@
 require_relative "./midi_file_header"
 
 class MIDIFile
-  ## I/O life cycle
+  ## Life cycle
 
   def self.open(filename)
     f = File.open(filename, "rb")
