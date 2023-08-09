@@ -1,5 +1,4 @@
 require_relative './midi/midi_file'
-require_relative './midi/midi_file_header'
 
 ## File -> chunks
 
@@ -53,24 +52,22 @@ unless ARGV.length.eql? 1
 end
 
 filename = ARGV[0]
+mf = MIDIFile.open(filename)
 
-f = File.open filename, 'rb'
 begin
   #Start with the header chunk, which is always first
-  file_header = MIDIFileHeader.read f
+  file_header = mf.file_header 
   puts 'Header chunk'
   describe_header_chunk file_header
 
   #Then read the tracks and any other chunk
-  while not f.eof?
-    type_name, chunk_bytes = read_chunk_prefix f
+  while not mf.eof?
+    type_name, chunk_bytes = mf.read_chunk
     puts ""
     puts "%s: %s bytes" % [type_name, chunk_bytes]
-
     describe_chunk type_name, chunk_bytes
-    f.read chunk_bytes
   end
 ensure
-  f.close
+  mf.close
 end
 

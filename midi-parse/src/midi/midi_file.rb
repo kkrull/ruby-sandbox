@@ -1,4 +1,8 @@
+require_relative './midi_file_header'
+
 class MIDIFile
+  ## I/O life cycle
+
   def self.open(filename)
     f = File.open(filename, 'rb')
     MIDIFile.new f
@@ -10,6 +14,22 @@ class MIDIFile
 
   def close
     @f.close
+  end
+
+  def eof?
+    @f.eof?
+  end
+
+  ## Contents
+
+  def file_header
+    MIDIFileHeader.read @f
+  end
+
+  def read_chunk
+    type_name, chunk_bytes = read_chunk_prefix @f
+    @f.read chunk_bytes
+    return type_name, chunk_bytes
   end
 end
 
