@@ -1,4 +1,5 @@
 require_relative './midi/midi_file'
+require_relative './midi/midi_file_header'
 
 ## File -> chunks
 
@@ -8,17 +9,14 @@ def read_chunk_prefix(f)
   return type_name, chunk_bytes.unpack1('N')
 end
 
-def inspect_chunk(type_name, chunk_bytes, f)
+def describe_chunk(type_name, chunk_bytes)
   case type_name
   when 'MThd'
     puts 'Header chunk'
-    inspect_header_chunk chunk_bytes, f
   when 'MTrk'
     puts 'Track chunk'
-    f.read chunk_bytes
   else
     puts 'Unknown chunk'
-    f.read chunk_bytes
   end
 end
 
@@ -30,16 +28,6 @@ def inspect_header_chunk(chunk_bytes, f)
   puts "File format %d: %s" % [file_header.file_format, describe_file_format(file_header.file_format)]
   puts "Tracks: %d" % [file_header.num_tracks]
   puts "Division %#04x: %s" % [file_header.division, describe_division(file_header.division)]
-end
-
-class MIDIFileHeader
-  attr_reader :file_format, :num_tracks, :division
-
-  def initialize(file_format, num_tracks, division)
-    @file_format = file_format
-    @num_tracks = num_tracks
-    @division = division
-  end
 end
 
 def read_header_chunk(f)
@@ -99,7 +87,8 @@ begin
     puts ""
     puts "%s: %s bytes" % [type_name, chunk_bytes]
 
-    inspect_chunk type_name, chunk_bytes, f
+    describe_chunk type_name, chunk_bytes
+    f.read chunk_bytes
   end
 ensure
   f.close
