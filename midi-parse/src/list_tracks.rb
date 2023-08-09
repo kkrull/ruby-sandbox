@@ -67,6 +67,18 @@ filename = ARGV[0]
 
 f = File.open filename, 'rb'
 begin
+  #Start with the header chunk, which is always first
+  type_name, chunk_bytes = read_chunk_prefix f
+  puts ""
+  puts "%s: %s bytes" % [type_name, chunk_bytes]
+  unless type_name.eql? 'MThd'
+    raise 'Expected first chunk to be a header chunk, but was: %s' % [type_name]
+  end
+
+  puts 'Header chunk'
+  inspect_header_chunk chunk_bytes, f
+
+  #Then read the tracks and any other chunk
   while not f.eof?
     type_name, chunk_bytes = read_chunk_prefix f
     puts ""
