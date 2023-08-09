@@ -25,6 +25,7 @@ end
 def inspect_header_chunk(chunk_bytes, f)
   file_header = read_header_chunk f
 
+  file_header.file_format_description
   puts "File format %d: %s" % [file_header.file_format, describe_file_format(file_header.file_format)]
   puts "Tracks: %d" % [file_header.num_tracks]
   puts "Division %#04x: %s" % [file_header.division, describe_division(file_header.division)]
