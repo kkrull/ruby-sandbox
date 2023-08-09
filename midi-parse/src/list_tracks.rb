@@ -23,20 +23,11 @@ end
 ## Header chunk
 
 def inspect_header_chunk(chunk_bytes, f)
-  file_header = read_header_chunk f
+  file_header = MIDIFileHeader.read f
 
-  file_header.file_format_description
   puts "File format %d: %s" % [file_header.file_format, describe_file_format(file_header.file_format)]
   puts "Tracks: %d" % [file_header.num_tracks]
   puts "Division %#04x: %s" % [file_header.division, describe_division(file_header.division)]
-end
-
-def read_header_chunk(f)
-  file_format = f.read(2).unpack1('n')
-  num_tracks = f.read(2).unpack1('n')
-  division = f.read(2).unpack1('n')
-
-  MIDIFileHeader.new(file_format, num_tracks, division)
 end
 
 def describe_division(division)
