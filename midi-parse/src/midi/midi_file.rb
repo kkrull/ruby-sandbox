@@ -4,24 +4,28 @@ class MIDIFile
   ## Life cycle
 
   def self.open(filename)
-    f = File.open(filename, "rb")
-    MIDIFile.new f, MIDIFileHeader.read(f)
+    file = File.open(filename, "rb")
+    MIDIFile.new file, MIDIFileHeader.read(file)
   end
 
-  def initialize(f, file_header)
-    @f = f
+  def initialize(file, file_header)
+    @file = file
     @file_header = file_header
   end
 
   def close
-    @f.close
+    @file.close
   end
 
   def eof?
-    @f.eof?
+    @file.eof?
   end
 
   ## Contents
+
+  def division_word
+    @file_header.division
+  end
 
   def file_format
     @file_header.file_format
@@ -37,8 +41,8 @@ class MIDIFile
   end
 
   def read_chunk
-    type_name, chunk_bytes = read_chunk_prefix @f
-    @f.read chunk_bytes
+    type_name, chunk_bytes = read_chunk_prefix @file
+    @file.read chunk_bytes
     return type_name, chunk_bytes
   end
 end

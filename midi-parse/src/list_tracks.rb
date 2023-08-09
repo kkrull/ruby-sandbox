@@ -15,10 +15,10 @@ end
 
 ## Header chunk
 
-def describe_header_chunk(mf, header)
+def describe_header_chunk(mf)
   puts "File format %d: %s" % [mf.file_format, describe_file_format(mf.file_format)]
   puts "Tracks: %d" % [mf.num_tracks]
-  puts "Division %#04x: %s" % [header.division, describe_division(header.division)]
+  puts "Division %#04x: %s" % [mf.division_word, describe_division(mf.division_word)]
 end
 
 def describe_division(division)
@@ -58,7 +58,7 @@ begin
   #Start with the header chunk, which is always first
   file_header = mf.file_header
   puts "Header chunk"
-  describe_header_chunk mf, file_header
+  describe_header_chunk mf
 
   #Then read the tracks and any other chunk
   while not mf.eof?
