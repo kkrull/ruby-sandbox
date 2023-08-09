@@ -1,3 +1,5 @@
+require_relative './midi/midi_file'
+
 ## File -> chunks
 
 def read_chunk_prefix(f)
@@ -23,14 +25,29 @@ end
 ## Header chunk
 
 def inspect_header_chunk(chunk_bytes, f)
+  file_header = read_header_chunk f
+
+  puts "File format %d: %s" % [file_header.file_format, describe_file_format(file_header.file_format)]
+  puts "Tracks: %d" % [file_header.num_tracks]
+  puts "Division %#04x: %s" % [file_header.division, describe_division(file_header.division)]
+end
+
+class MIDIFileHeader
+  attr_reader :file_format, :num_tracks, :division
+
+  def initialize(file_format, num_tracks, division)
+    @file_format = file_format
+    @num_tracks = num_tracks
+    @division = division
+  end
+end
+
+def read_header_chunk(f)
   file_format = f.read(2).unpack1('n')
-  puts "File format %d: %s" % [file_format, describe_file_format(file_format)]
-
   num_tracks = f.read(2).unpack1('n')
-  puts "Tracks: %d" % [num_tracks]
-
   division = f.read(2).unpack1('n')
-  puts "Division %#04x: %s" % [division, describe_division(division)]
+
+  MIDIFileHeader.new(file_format, num_tracks, division)
 end
 
 def describe_division(division)
@@ -69,8 +86,6 @@ f = File.open filename, 'rb'
 begin
   #Start with the header chunk, which is always first
   type_name, chunk_bytes = read_chunk_prefix f
-  puts ""
-  puts "%s: %s bytes" % [type_name, chunk_bytes]
   unless type_name.eql? 'MThd'
     raise 'Expected first chunk to be a header chunk, but was: %s' % [type_name]
   end
