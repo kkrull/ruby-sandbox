@@ -23,9 +23,14 @@ class MIDIFile
   ## Contents
 
   def file_header
-    MIDIFileHeader.read @f
+    @file_header = MIDIFileHeader.read @f
   end
 
+  def num_tracks
+    @file_header.num_tracks
+  end
+
+#  private
   def read_chunk
     type_name, chunk_bytes = read_chunk_prefix @f
     @f.read chunk_bytes
