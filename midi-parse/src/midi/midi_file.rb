@@ -40,6 +40,12 @@ class MIDIFile
     @file_header.file_format.eql? 0
   end
 
+  ## Content
+
+  def read_chunks
+    []
+  end
+
 #  private
   def file_header
     @file_header
@@ -57,3 +63,13 @@ def read_chunk_prefix(file)
   chunk_bytes = file.read 4
   return type_name, chunk_bytes.unpack1("N")
 end
+
+class MIDIChunk
+  attr_reader :type_name, :length
+
+  def initialize(type_name, length)
+    @type_name = type_name
+    @length = length
+  end
+end
+

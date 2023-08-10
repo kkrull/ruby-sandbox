@@ -59,6 +59,12 @@ begin
   describe_header_chunk mf
 
   #Then read the tracks and any other chunk
+  mf.read_chunks.each_with_index do |chunk, i|
+    puts ""
+    puts "%s: %s bytes" % [chunk.type_name, chunk.length]
+    puts describe_chunk(chunk.type_name)
+  end
+
   while not mf.eof?
     type_name, chunk_bytes = mf.read_chunk
     puts ""
