@@ -37,6 +37,8 @@ class MIDIFile
   end
 
   def single_track?
+    #[1,2] also possible
+    #https://midimusic.github.io/tech/midispec.html#BM2_1
     @file_header.file_format.eql? 0
   end
 
