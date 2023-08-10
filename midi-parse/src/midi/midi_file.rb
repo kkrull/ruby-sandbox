@@ -48,8 +48,8 @@ class MIDIFile
   def read_chunks
     chunks = []
     while not eof?
-      type_name, chunk_bytes = read_chunk
-      chunks.push MIDIChunk.new(type_name, chunk_bytes)
+      chunk = MIDIChunk.read @file
+      chunks.push chunk
     end
 
     chunks
@@ -59,15 +59,15 @@ class MIDIFile
   def file_header
     @file_header
   end
-
-  def read_chunk
-    type_name, chunk_bytes = MIDI::IO.read_chunk_prefix @file
-    @file.read chunk_bytes
-    return type_name, chunk_bytes
-  end
 end
 
 class MIDIChunk
+  def self.read(file)
+    type_name, chunk_bytes = MIDI::IO.read_chunk_prefix file
+    file.read chunk_bytes
+    MIDIChunk.new(type_name, chunk_bytes)
+  end
+
   attr_reader :type_name, :length
 
   def initialize(type_name, length)
