@@ -55,10 +55,8 @@ class MIDIFile
     chunks
   end
 
-#  private
-  def file_header
-    @file_header
-  end
+  private
+  attr_reader :file_header
 end
 
 class MIDIChunk
