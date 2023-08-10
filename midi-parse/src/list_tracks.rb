@@ -40,6 +40,9 @@ begin
   puts "Chunks"
   midi_file.read_chunks.each do |chunk|
     puts "%s: %s bytes" % [chunk.type_name, chunk.length]
+    #if chunk.is_track?
+    #  #read the variable length time
+    #end
   end
 ensure
   midi_file.close
