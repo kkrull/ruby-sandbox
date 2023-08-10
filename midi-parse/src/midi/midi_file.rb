@@ -1,5 +1,6 @@
 require_relative "./midi_file_header"
 
+#Top-level object for parsing musical instrument data in a MIDI file
 class MIDIFile
   ## Life cycle
 
@@ -51,8 +52,8 @@ class MIDIFile
   end
 end
 
-def read_chunk_prefix(f)
-  type_name = f.read 4
-  chunk_bytes = f.read 4
+def read_chunk_prefix(file)
+  type_name = file.read 4
+  chunk_bytes = file.read 4
   return type_name, chunk_bytes.unpack1("N")
 end
