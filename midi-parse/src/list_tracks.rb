@@ -5,31 +5,23 @@ require_relative "./midi/midi_file"
 def describe_header_chunk(midi_file)
   puts "File format: %s" % describe_file_format(midi_file)
   puts "Tracks: %d" % midi_file.num_tracks
-  puts "Division %#04x: %s" % [midi_file.division_word, describe_division(midi_file.division_word)]
+  puts "Division %#04x: %s" % [midi_file.division_word, describe_division(midi_file)]
 end
 
-def describe_division(division)
-  #https://midimusic.github.io/tech/midispec.html#BM2_1
-  division_type = division & 0x8000
-  case division_type
-  when 0
-    ticks_per_quarter = division & 0x7f00
-    return "%d ticks per quarter note" % ticks_per_quarter
-  else
-    #[1] also possible
-    raise ArgumentError.new("Unknown division type: %#04x" % division)
+def describe_division(midi_file)
+  unless midi_file.division_by_ticks?
+    raise ArgumentError.new("Unknown division type: %#04x" % midi_file.division_word)
   end
+
+  "%d ticks per quarter note" % midi_file.division_ticks_per_quarter
 end
 
 def describe_file_format(midi_file)
-  #https://midimusic.github.io/tech/midispec.html#BM2_1
-  case
-  when midi_file.single_track?
-    "Single track, multi-channel (type %d)" % midi_file.file_format
-  else
-    #[1,2] also possible
+  unless midi_file.single_track?
     raise ArgumentError.new("Unknown MIDI file format: %d" % midi_file.file_format)
   end
+
+  "Single track, multi-channel (type %d)" % midi_file.file_format
 end
 
 ## Main

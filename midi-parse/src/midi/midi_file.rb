@@ -25,11 +25,30 @@ class MIDIFile
 
   ## File header
 
+  def division_by_ticks?
+    #[1] also possible
+    division_type.eql? 0
+  end
+
+  def division_ticks_per_quarter
+    unless division_by_ticks?
+      raise ArgumentError.new("Unknown division type: %#04x" % division_word)
+    end
+
+    return division_word & 0x7f00
+  end
+
+  def division_type
+    division_word & 0x8000
+  end
+
   def division_word
+    #https://midimusic.github.io/tech/midispec.html#BM2_1
     @file_header.division
   end
 
   def file_format
+    #https://midimusic.github.io/tech/midispec.html#BM2_1
     @file_header.file_format
   end
 
@@ -39,7 +58,6 @@ class MIDIFile
 
   def single_track?
     #[1,2] also possible
-    #https://midimusic.github.io/tech/midispec.html#BM2_1
     @file_header.file_format.eql? 0
   end
 
