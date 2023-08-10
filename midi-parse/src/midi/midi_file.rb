@@ -1,3 +1,4 @@
+require_relative "./io"
 require_relative "./midi_file_header"
 
 #Top-level object for parsing musical instrument data in a MIDI file
@@ -60,16 +61,10 @@ class MIDIFile
   end
 
   def read_chunk
-    type_name, chunk_bytes = read_chunk_prefix @file
+    type_name, chunk_bytes = MIDI::IO.read_chunk_prefix @file
     @file.read chunk_bytes
     return type_name, chunk_bytes
   end
-end
-
-def read_chunk_prefix(file)
-  type_name = file.read 4
-  chunk_bytes = file.read 4
-  return type_name, chunk_bytes.unpack1("N")
 end
 
 class MIDIChunk

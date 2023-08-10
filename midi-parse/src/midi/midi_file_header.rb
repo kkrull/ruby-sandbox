@@ -1,7 +1,9 @@
+require_relative './io'
+
 #The first chunk in a MIDI file, stating how the following chunks are organized
 class MIDIFileHeader
   def self.read(file)
-    type_name, chunk_bytes = read_chunk_prefix file
+    type_name, chunk_bytes = MIDI::IO.read_chunk_prefix file
     unless type_name.eql? "MThd"
       raise "Expected first chunk to be a header chunk, but was: %s" % type_name
     end
