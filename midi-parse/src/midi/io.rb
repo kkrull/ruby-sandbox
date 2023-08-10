@@ -10,4 +10,3 @@ module MIDI
     end
   end
 end
-

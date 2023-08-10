@@ -1,4 +1,4 @@
-require_relative './io'
+require_relative "./io"
 
 #The first chunk in a MIDI file, stating how the following chunks are organized
 class MIDIFileHeader

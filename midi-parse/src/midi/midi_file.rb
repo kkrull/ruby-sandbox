@@ -78,6 +78,7 @@ class MIDIFile
   end
 
   private
+
   attr_reader :file_header
 end
 
@@ -95,4 +96,3 @@ class MIDIChunk
     @length = length
   end
 end
-
