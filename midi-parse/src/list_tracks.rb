@@ -14,7 +14,7 @@ def describe_division(division)
   case division_type
   when 0
     ticks_per_quarter = division & 0x7f00
-    return "%d ticks per quarter note" % [ticks_per_quarter]
+    return "%d ticks per quarter note" % ticks_per_quarter
   else
     #[1] also possible
     raise ArgumentError.new("Unknown division type: %#04x" % division)
@@ -25,10 +25,10 @@ def describe_file_format(mf)
   #https://midimusic.github.io/tech/midispec.html#BM2_1
   case
   when mf.single_track?
-    "Single track, multi-channel (type %d)" % [mf.file_format]
+    "Single track, multi-channel (type %d)" % mf.file_format
   else
     #[1,2] also possible
-    raise ArgumentError.new("Unknown MIDI file format: %d" % [mf.file_format])
+    raise ArgumentError.new("Unknown MIDI file format: %d" % mf.file_format)
   end
 end
 
