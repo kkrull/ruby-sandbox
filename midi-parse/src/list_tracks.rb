@@ -1,18 +1,5 @@
 require_relative "./midi/midi_file"
 
-## File -> chunks
-
-def describe_chunk(type_name)
-  case type_name
-  when "MThd"
-    "Header chunk"
-  when "MTrk"
-    "Track chunk"
-  else
-    "Unknown chunk"
-  end
-end
-
 ## Header chunk
 
 def describe_header_chunk(mf)
@@ -55,14 +42,12 @@ filename = ARGV[0]
 mf = MIDIFile.open(filename)
 
 begin
-  #Start with the header chunk, which is always first
   describe_header_chunk mf
 
-  #Then read the tracks and any other chunk
-  mf.read_chunks.each_with_index do |chunk, i|
-    puts ""
+  puts ""
+  puts "Chunks"
+  mf.read_chunks.each do |chunk|
     puts "%s: %s bytes" % [chunk.type_name, chunk.length]
-    puts describe_chunk(chunk.type_name)
   end
 ensure
   mf.close
