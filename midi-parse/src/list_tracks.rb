@@ -64,13 +64,6 @@ begin
     puts "%s: %s bytes" % [chunk.type_name, chunk.length]
     puts describe_chunk(chunk.type_name)
   end
-
-  while not mf.eof?
-    type_name, chunk_bytes = mf.read_chunk
-    puts ""
-    puts "%s: %s bytes" % [type_name, chunk_bytes]
-    puts describe_chunk(type_name)
-  end
 ensure
   mf.close
 end

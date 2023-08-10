@@ -43,7 +43,13 @@ class MIDIFile
   ## Content
 
   def read_chunks
-    []
+    chunks = []
+    while not eof?
+      type_name, chunk_bytes = read_chunk
+      chunks.push MIDIChunk.new(type_name, chunk_bytes)
+    end
+
+    chunks
   end
 
 #  private
