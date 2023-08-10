@@ -8,7 +8,7 @@ Next up: Load the file and pass through the top-line chunks:
 
 ## Running
 
-    make
+    make run
 
 ## Viewing hex data
 
