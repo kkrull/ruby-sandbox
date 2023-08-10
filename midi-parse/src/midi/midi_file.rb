@@ -23,12 +23,7 @@ class MIDIFile
     @file.eof?
   end
 
-  ## File header
-
-  def division_by_ticks?
-    #[1] also possible
-    division_type.eql? 0
-  end
+  ## Divisions of time
 
   def division_ticks_per_quarter
     unless division_by_ticks?
@@ -36,6 +31,11 @@ class MIDIFile
     end
 
     return division_word & 0x7f00
+  end
+
+  def division_by_ticks?
+    #[1] also possible
+    division_type.eql? 0
   end
 
   def division_type
@@ -47,18 +47,22 @@ class MIDIFile
     @file_header.division
   end
 
+  ## File format
+
+  def single_track?
+    #[1,2] also possible
+    @file_header.file_format.eql? 0
+  end
+
   def file_format
     #https://midimusic.github.io/tech/midispec.html#BM2_1
     @file_header.file_format
   end
 
+  ## Track chunks
+
   def num_tracks
     @file_header.num_tracks
-  end
-
-  def single_track?
-    #[1,2] also possible
-    @file_header.file_format.eql? 0
   end
 
   ## Content

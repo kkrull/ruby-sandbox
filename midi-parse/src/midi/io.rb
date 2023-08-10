@@ -1,4 +1,5 @@
 module MIDI
+  #Functions for I/O dealing with MIDI files
   module IO
     module_function
 
