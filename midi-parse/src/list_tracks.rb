@@ -52,10 +52,14 @@ begin
   puts "Tracks: %d" % header.num_tracks
   while not file.eof?
     chunk = MIDIChunk.start_read file
-    puts "%s: %d bytes" % [chunk.type, chunk.length]
-
-    puts "track? %s" % chunk.is_track?
-    file.read chunk.length
+    case
+    when chunk.is_track?
+      puts "Track (%d bytes)" % chunk.length
+      file.read chunk.length
+    else
+      puts "Unknown chunk: %s (%d bytes)" % [chunk.type, chunk.length]
+      file.read chunk.length
+    end
   end
 ensure
   file.close
