@@ -20,14 +20,28 @@ class MIDIChunk
   end
 end
 
+class MIDIHeaderChunk
+  def self.read(file)
+    format = file.read(2).unpack1("n")
+    num_tracks = file.read(2).unpack1("n")
+    division = file.read(2).unpack1("n")
+    MIDIHeaderChunk.new(format, num_tracks, division)
+  end
+
+  attr_reader :num_tracks
+
+  def initialize(format, num_tracks, division)
+    @num_tracks = num_tracks
+  end
+end
+
 begin
   chunk = MIDIChunk.start_read file
   puts "%s: %d bytes" % [chunk.type, chunk.length]
 
-  file.read(2) #format
-  num_tracks = file.read(2).unpack1("n")
-  file.read(2) #division
-  puts "Tracks: %d" % num_tracks
+  raise "Expected MThd chunk, but was %s" % chunk.type unless chunk.type.eql? "MThd"
+  header = MIDIHeaderChunk.read(file)
+  puts "Tracks: %d" % header.num_tracks
 ensure
   file.close
 end
