@@ -18,6 +18,10 @@ class MIDIChunk
     @type = type
     @length = length
   end
+
+  def is_header?
+    @type.eql? "MThd"
+  end
 end
 
 class MIDIHeaderChunk
@@ -39,7 +43,7 @@ begin
   chunk = MIDIChunk.start_read file
   puts "%s: %d bytes" % [chunk.type, chunk.length]
 
-  raise "Expected MThd chunk, but was %s" % chunk.type unless chunk.type.eql? "MThd"
+  raise "Expected MThd chunk, but was %s" % chunk.type unless chunk.is_header?
   header = MIDIHeaderChunk.read(file)
   puts "Tracks: %d" % header.num_tracks
 ensure
