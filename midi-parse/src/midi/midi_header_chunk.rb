@@ -1,3 +1,4 @@
+#The header chunk at the beginning of every MIDI file
 class MIDIHeaderChunk
   def self.read(file)
     chunk = MIDIChunk.start_read file
