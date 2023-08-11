@@ -26,6 +26,9 @@ end
 
 class MIDIHeaderChunk
   def self.read(file)
+    chunk = MIDIChunk.start_read file
+    raise "Expected MThd chunk, but was %s" % chunk.type unless chunk.is_header?
+
     format = file.read(2).unpack1("n")
     num_tracks = file.read(2).unpack1("n")
     division = file.read(2).unpack1("n")
@@ -40,15 +43,13 @@ class MIDIHeaderChunk
 end
 
 begin
-  chunk = MIDIChunk.start_read file
-  raise "Expected MThd chunk, but was %s" % chunk.type unless chunk.is_header?
   header = MIDIHeaderChunk.read(file)
-  
+
   puts "Tracks: %d" % header.num_tracks
   while not file.eof?
-    next_chunk = MIDIChunk.start_read file
-    puts "%s: %d bytes" % [next_chunk.type, next_chunk.length]
-    file.read next_chunk.length
+    chunk = MIDIChunk.start_read file
+    puts "%s: %d bytes" % [chunk.type, chunk.length]
+    file.read chunk.length
   end
 ensure
   file.close
