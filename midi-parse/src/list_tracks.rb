@@ -16,7 +16,14 @@ begin
     case
     when chunk.is_track?
       puts "Track (%d bytes)" % chunk.length
-      file.read chunk.length
+
+      quantity, num_bytes = read_variable_length_quantity file
+
+      #delta_time_bytes = []
+      #var_length_byte = file.readchar.unpack1("c")
+      #Use unpacks: { c 8-bit, n 16-bit, N 32-bit }
+
+      file.read(chunk.length - num_bytes)
     else
       puts "Unknown chunk: %s (%d bytes)" % [chunk.type, chunk.length]
       file.read chunk.length
