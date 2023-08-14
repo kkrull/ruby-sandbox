@@ -7,6 +7,19 @@ end
 filename = ARGV[0]
 file = File.open(filename, 'rb')
 
+def read_variable_length_quantity(file)
+  byte = file.readbyte
+  num_bytes = 1
+  puts "<%#x>" % byte
+
+  if (byte & 0x80).eql? 0x80
+    raise "Multi-byte quantity not yet supported: %#x" % byte
+  end
+
+  quantity = byte & 0x7f
+  return quantity, num_bytes
+end
+
 begin
   header = MIDIHeaderChunk.read(file)
 
