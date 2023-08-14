@@ -17,7 +17,10 @@ def read_variable_length_quantity(file)
   end
 
   quantity = byte & 0x7f
-  return quantity, num_bytes
+
+  #var_length_byte = file.readchar.unpack1("c")
+  #Use unpacks: { c 8-bit, n 16-bit, N 32-bit }
+  return quantity, num_bytes #TODO KDK: Return a class instead of a naked primitive
 end
 
 begin
@@ -31,11 +34,7 @@ begin
       puts "Track (%d bytes)" % chunk.length
 
       quantity, num_bytes = read_variable_length_quantity file
-
-      #delta_time_bytes = []
-      #var_length_byte = file.readchar.unpack1("c")
-      #Use unpacks: { c 8-bit, n 16-bit, N 32-bit }
-
+      #TODO KDK: Read event
       file.read(chunk.length - num_bytes)
     else
       puts "Unknown chunk: %s (%d bytes)" % [chunk.type, chunk.length]
