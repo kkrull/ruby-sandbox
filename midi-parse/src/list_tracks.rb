@@ -5,7 +5,7 @@ unless ARGV.length.eql? 1
 end
 
 filename = ARGV[0]
-file = File.open(filename, 'rb')
+file = File.open(filename, "rb")
 
 def read_variable_length_quantity(file)
   byte = file.readbyte
