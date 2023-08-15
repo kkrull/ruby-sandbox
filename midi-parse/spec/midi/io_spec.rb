@@ -17,5 +17,7 @@ RSpec.describe MIDI do
         expect(returned).to eql([0, nil])
       end
     end
+
+    pending "reads a byte for a single byte quantity"
   end
 end
