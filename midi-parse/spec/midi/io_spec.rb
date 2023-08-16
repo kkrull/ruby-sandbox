@@ -39,5 +39,11 @@ RSpec.describe MIDI do
         expect(io_stream.eof?).to be(true)
       end
     end
+
+    context "given a stream headed by a 2-4 byte quantity" do
+      let(:io_stream) { make_byte_stream [0x80, 0x7f] }
+      pending "reads bytes until there is one with the MSB unset"
+      pending "treats the remaining 7 LSB as data"
+    end
   end
 end
