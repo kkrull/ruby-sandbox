@@ -42,7 +42,12 @@ RSpec.describe MIDI do
 
     context "given a stream headed by a 2-4 byte quantity" do
       let(:io_stream) { make_byte_stream [0x80, 0x7f] }
-      pending "reads bytes until there is one with the MSB unset"
+      it "reads bytes until there is one with the MSB unset" do
+        returned = MIDI.read_variable_length_quantity io_stream
+        expect(returned.num_bytes_read).to eql(2)
+        expect(io_stream.pos).to eql(2)
+      end
+
       pending "treats the remaining 7 LSB as data"
     end
   end
