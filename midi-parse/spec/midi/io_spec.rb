@@ -3,10 +3,17 @@ require "stringio"
 
 require_relative "../../src/midi/io" #Absolute import?
 
+def make_byte_stream(bytes)
+  return StringIO.new if bytes.empty?
+
+  packed = bytes.pack("C*")
+  StringIO.new packed
+end
+
 RSpec.describe MIDI do
   describe "::read_variable_length_quantity" do
     context "given a stream already at EOF" do
-      let(:io_stream) { StringIO.new }
+      let(:io_stream) { make_byte_stream [] }
       it "reads 0 bytes" do
         expect(io_stream).not_to receive(:getbyte)
         MIDI.read_variable_length_quantity io_stream
@@ -20,7 +27,7 @@ RSpec.describe MIDI do
     end
 
     context "given a stream headed by a single byte quantity" do
-      let(:io_stream) { StringIO.new [0x7f].pack("C*") }
+      let(:io_stream) { make_byte_stream [0x7f] }
       it "returns that single byte of data" do
         returned = MIDI.read_variable_length_quantity io_stream
         expect(returned.num_bytes_read).to eql(1)
