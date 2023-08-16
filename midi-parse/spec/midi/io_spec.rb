@@ -8,8 +8,8 @@ RSpec.describe MIDI do
     context "given a stream already at EOF" do
       let(:data) { StringIO.new }
       it "reads 0 bytes" do
-        MIDI.read_variable_length_quantity data
         expect(data).not_to receive(:getbyte)
+        MIDI.read_variable_length_quantity data
       end
 
       it "returns 0 bytes read, nil data" do
