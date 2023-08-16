@@ -5,7 +5,8 @@ module MIDI
     return Quantity.nothing_read if io_stream.eof?
 
     byte = io_stream.readbyte
-    return Quantity.new(1, 0x7f)
+    #puts "Read byte: %x" % byte
+    return Quantity.new(1, byte)
   end
 
   class Quantity
