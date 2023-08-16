@@ -10,6 +10,7 @@ def make_byte_stream(bytes)
   StringIO.new packed
 end
 
+#TODO KDK: Change to Quantity::read with #num_bytes, #data, and #value
 RSpec.describe MIDI do
   describe "::read_variable_length_quantity" do
     context "given a stream already at EOF" do
@@ -41,14 +42,17 @@ RSpec.describe MIDI do
     end
 
     context "given a stream headed by a 2-4 byte quantity" do
-      let(:io_stream) { make_byte_stream [0x80, 0x7f] }
+      let(:io_stream) { make_byte_stream [0x81, 0x00] }
       it "reads bytes until there is one with the MSB unset" do
         returned = MIDI.read_variable_length_quantity io_stream
         expect(returned.num_bytes_read).to eql(2)
         expect(io_stream.pos).to eql(2)
       end
 
-      pending "treats the remaining 7 LSB as data"
+      pending "treats the remaining 7 LSB as data" do
+        returned = MIDI.read_variable_length_quantity io_stream
+        expect(returned.quantity).to eql(0x80)
+      end
     end
   end
 end
