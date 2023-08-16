@@ -19,6 +19,18 @@ RSpec.describe MIDI do
       end
     end
 
-    pending "reads a byte for a single byte quantity"
+    context "given a stream headed by a single byte quantity" do
+      let(:io_stream) { StringIO.new [0x7f].pack("C") }
+      it "returns that single byte of data" do
+        returned = MIDI.read_variable_length_quantity io_stream
+        expect(returned.num_bytes_read).to eql(1)
+        expect(returned.data).to eql(0x7f)
+      end
+
+      it "consumes that byte from the stream" do
+        returned = MIDI.read_variable_length_quantity io_stream
+        expect(io_stream.eof?).to be(true)
+      end
+    end
   end
 end
