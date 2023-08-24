@@ -36,7 +36,7 @@ RSpec.describe MIDI do
       end
 
       it "consumes that byte from the stream" do
-        returned = MIDI.read_variable_length_quantity io_stream
+        MIDI.read_variable_length_quantity io_stream
         expect(io_stream.eof?).to be(true)
       end
     end
