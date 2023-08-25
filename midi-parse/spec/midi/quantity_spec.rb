@@ -16,19 +16,26 @@ RSpec.describe Quantity do
       let(:io_stream) { make_byte_stream [] }
 
       it "reads 0 bytes" do
+        returned = Quantity.read io_stream
         expect(io_stream.pos).to eql(0)
-        Quantity.read io_stream
+        expect(returned.num_bytes_read).to eql(0)
       end
+
+      pending "#value is nil"
     end
 
-    describe "#num_bytes_read" do
-      context "when read from a stream already at EOF" do
-        let(:io_stream) { make_byte_stream [] }
+    context "given a stream with a single byte quantity" do
+      let(:io_stream) { make_byte_stream [0x7f] }
 
-        it "returns 0 bytes read, nil data" do
-          returned = Quantity.read io_stream
-          expect(returned.num_bytes_read).to eql(0)
-        end
+      it "consumes that byte from the stream" do
+        returned = Quantity.read io_stream
+        expect(io_stream.pos).to eql(1)
+        expect(returned.num_bytes_read).to eql(1)
+      end
+
+      it "#value is the byte as-is" do
+        returned = Quantity.read io_stream
+        expect(returned.value).to eql(0x7f)
       end
     end
   end
