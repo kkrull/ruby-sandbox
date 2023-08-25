@@ -46,7 +46,7 @@ RSpec.describe Quantity do
     end
   end
 
-  describe '#num_bytes_read' do
+  describe "#num_bytes_read" do
     it "is 0, given a stream already at EOF" do
       io_stream = make_byte_stream []
       subject = Quantity.read io_stream
@@ -60,7 +60,7 @@ RSpec.describe Quantity do
     end
   end
 
-  describe '#value' do
+  describe "#value" do
     it "is nil, given a stream already at EOF" do
       io_stream = make_byte_stream []
       subject = Quantity.read io_stream
