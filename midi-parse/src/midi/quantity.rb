@@ -3,12 +3,15 @@ class Quantity
     return Quantity.new(0, nil) if io_stream.eof?
 
     data = []
+    value = 0
     loop do
-      data << io_stream.readbyte
-      break unless (data.last & 0x80).eql? 0x80
+      byte = io_stream.readbyte
+      data << byte
+      value = (value << 7) + (byte & 0x7f)
+      break unless (byte & 0x80).eql? 0x80
     end
 
-    Quantity.new data.length, data[0]
+    Quantity.new data.length, value
   end
 
   attr_reader :num_bytes_read, :value

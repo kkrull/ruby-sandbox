@@ -35,11 +35,10 @@ RSpec.describe Quantity do
         expect(io_stream.pos).to eql(2)
       end
 
-      #it "treats the remaining 7 LSB as data" do
-      #  pending "add #value"
-      #  returned = MIDI.read_variable_length_quantity io_stream
-      #  expect(returned.value).to eql(0x80)
-      #end
+      it "decodes the value from the remaining 7 LSB" do
+        subject = Quantity.read io_stream
+        expect(subject.value).to eql(0x80)
+      end
     end
   end
 
