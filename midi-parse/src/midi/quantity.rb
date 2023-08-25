@@ -1,3 +1,7 @@
+#Variable length quantity, encoded as 7-bit values in up to 4 bytes
+#Format: [0b1VVVVVVV]* 0b0VVVVVVV
+#Bit 7 (Flag): Set (more bytes in sequence), Clear (last byte in sequence)
+#Bits 0-6: Value
 class Quantity
   def self.read(io_stream)
     return Quantity.new(0, nil) if io_stream.eof?

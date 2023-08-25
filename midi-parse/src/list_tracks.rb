@@ -19,7 +19,7 @@ begin
       puts "Track (%d bytes)" % chunk.length
 
       quantity = Quantity.read file
-      puts "<%#x>" % quantity.value
+      puts "Delta time: %#x" % quantity.value
 
       #TODO KDK: Read event
       file.read(chunk.length - quantity.num_bytes_read)
