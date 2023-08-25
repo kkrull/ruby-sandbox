@@ -5,10 +5,9 @@ class Quantity
     data = []
     value = 0
     loop do
-      byte = io_stream.readbyte
-      data << byte
-      value = (value << 7) + (byte & 0x7f)
-      break unless (byte & 0x80).eql? 0x80
+      data << io_stream.readbyte
+      value = (value << 7) + (data.last & 0x7f)
+      break unless (data.last & 0x80).eql? 0x80
     end
 
     Quantity.new data.length, value

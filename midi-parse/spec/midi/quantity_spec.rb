@@ -28,16 +28,20 @@ RSpec.describe Quantity do
     end
 
     context "given a stream headed with a multi-byte quantity" do
-      let(:io_stream) { make_byte_stream [0x81, 0x00] }
-
       it "reads bytes until there is one with the MSB clear" do
+        io_stream = make_byte_stream [0x81, 0x00]
         Quantity.read io_stream
         expect(io_stream.pos).to eql(2)
       end
 
       it "decodes the value from the remaining 7 LSB" do
-        subject = Quantity.read io_stream
+        subject = Quantity.read make_byte_stream([0x81, 0x00])
         expect(subject.value).to eql(0x80)
+      end
+
+      it "shifts left by 7 bits at a time" do
+        subject = Quantity.read make_byte_stream([0x81, 0x7f])
+        expect(subject.value).to eql(0xff)
       end
     end
   end
