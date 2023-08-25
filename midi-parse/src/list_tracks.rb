@@ -15,11 +15,11 @@ begin
   while not file.eof?
     chunk = MIDIChunk.start_read file
     case
-    when chunk.is_track?
+    when chunk.track?
       puts "Track (%d bytes)" % chunk.length
 
       quantity = Quantity.read file
-      puts "<%#x>" % quantity.value 
+      puts "<%#x>" % quantity.value
 
       #TODO KDK: Read event
       file.read(chunk.length - quantity.num_bytes_read)
