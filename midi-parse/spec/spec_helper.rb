@@ -34,9 +34,6 @@ RSpec.configure do |config|
     config.order = :random
     Kernel.srand config.seed
 
-    # Print the 10 slowest examples
-    config.profile_examples = 10
-
     # Enable warnings
     config.warnings = true
   end
