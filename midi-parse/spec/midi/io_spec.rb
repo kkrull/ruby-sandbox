@@ -49,9 +49,10 @@ RSpec.describe MIDI do
         expect(io_stream.pos).to eql(2)
       end
 
-      pending "treats the remaining 7 LSB as data" do
+      xit "treats the remaining 7 LSB as data" do
+        pending "add #value"
         returned = MIDI.read_variable_length_quantity io_stream
-        expect(returned.quantity).to eql(0x80)
+        expect(returned.value).to eql(0x80)
       end
     end
   end
