@@ -1,6 +1,7 @@
 class Quantity
   def self.read(io_stream)
-    Quantity.new 0
+    return Quantity.new 0 if io_stream.eof?
+    Quantity.new 999
   end
 
   attr_reader :num_bytes_read
