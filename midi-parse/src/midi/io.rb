@@ -4,14 +4,14 @@ module MIDI
   def read_variable_length_quantity(io_stream)
     return Quantity.nothing_read if io_stream.eof?
 
-    data = []
+    bytes = []
     loop do
-      data.push io_stream.readbyte
+      bytes.push io_stream.readbyte
       #puts "Read byte: %x" % byte
-      break unless (data.last & 0x80).eql? 0x80
+      break unless (bytes.last & 0x80).eql? 0x80
     end
 
-    return Quantity.new(data.length, data[0])
+    return Quantity.new(bytes.length, bytes[0])
   end
 
   class Quantity
