@@ -1,7 +1,7 @@
 require "rspec"
 require "stringio"
 
-require_relative "../../src/midi/io" #Absolute import?
+require_relative "../../src/midi/quantity"
 
 def make_byte_stream(bytes)
   return StringIO.new if bytes.empty?
@@ -10,20 +10,8 @@ def make_byte_stream(bytes)
   StringIO.new packed
 end
 
-class Quantity
-  def self.read(io_stream)
-    Quantity.new 0
-  end
-
-  attr_reader :num_bytes_read
-
-  def initialize(num_bytes_read)
-    @num_bytes_read = num_bytes_read
-  end
-end
-
 RSpec.describe Quantity do
-  describe '::read' do
+  describe "::read" do
     context "given a stream already at EOF" do
       let(:io_stream) { make_byte_stream [] }
 
