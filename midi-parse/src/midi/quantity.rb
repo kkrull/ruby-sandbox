@@ -1,6 +1,6 @@
 class Quantity
   def self.read(io_stream)
-    return Quantity.new(0, 0) if io_stream.eof?
+    return Quantity.new(0, nil) if io_stream.eof?
 
     data = []
     loop do
