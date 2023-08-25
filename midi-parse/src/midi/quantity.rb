@@ -3,7 +3,11 @@ class Quantity
     return Quantity.new(0, 0) if io_stream.eof?
 
     data = []
-    data << io_stream.readbyte
+    loop do
+      data << io_stream.readbyte
+      break unless (data.last & 0x80).eql? 0x80
+    end
+
     Quantity.new data.length, data[0]
   end
 
