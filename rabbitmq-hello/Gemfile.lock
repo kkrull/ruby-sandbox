@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    amq-protocol (1.9.2)
+    amqp (1.4.1)
+      amq-protocol (>= 1.9.2)
+      eventmachine
+    bunny (0.9.8)
+      amq-protocol (>= 1.6.0)
+    eventmachine (1.0.3)
+    rb-readline (0.5.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  amqp (~> 1.4.1)
+  bunny (= 0.9.8)
+  rb-readline
